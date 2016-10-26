@@ -35,13 +35,13 @@ int main()
 		K[cont]=2*r1*r4*sin(theta1)-2*r2*r4*sin(theta2);
 		L[cont]=r1*r1+r2*r2+r4*r4-r3*r3-2*r1*r2*(cos(theta1)*cos(theta2)+sin(theta1)*sin(theta2));
 		theta4[cont]=2*atan((-K[cont]-sqrt(K[cont]*K[cont]-L[cont]*L[cont]+J[cont]*J[cont]))/(L[cont]-J[cont]));
+		theta3[cont]=atan((r1*sin(theta1)+r4*sin(theta4[cont])-r2*sin(theta2))/(r1*cos(theta1)+r4*cos(theta4[cont])-r2*cos(theta2)));
 	}
-	printf("theta_4: %f\n", theta4[0]/degtorad);
+	printf("theta_3: %f\n", theta3[0]/degtorad);
 	free(theta3);
 	free(theta4);
 	free(J);
 	free(K);
 	free(L);
-	system("pause");
 	return 0;
 }
