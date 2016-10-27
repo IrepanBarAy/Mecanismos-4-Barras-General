@@ -7,7 +7,7 @@ int main()
 {
 	/*Declaración de Variables*/
 	int cont;
-	double r1, r2, r3, r4, theta1, theta2, degtorad, theta_ini, theta_fin, val, omega2;
+	double r1, r2, r3, r4, theta1, theta2, degtorad, theta_ini, theta_fin, val, omega2, alpha2;
 	degtorad=3.141592654/180;
 
 	/*Oscilación de theta_2*/
@@ -22,9 +22,10 @@ int main()
 	r4=0.8;
 	theta1=0;
 	omega2=12;
+	alpha2=0;
 
 	/*Variables dependientes de theta_2*/
-	double *theta3, *theta4, *J, *K, *L, *omega3, *omega4;
+	double *theta3, *theta4, *J, *K, *L, *omega3, *omega4, *alpha3, *alpha4;
 	
 	/*Declaración de punteros*/
 	theta3=(double *) malloc(sizeof(double) * val);
@@ -34,6 +35,8 @@ int main()
 	L=(double *) malloc(sizeof(double) * val);
 	omega3=(double *) malloc(sizeof(double) * val);
 	omega4=(double *) malloc(sizeof(double) * val);
+	alpha3=(double *) malloc(sizeof(double) * val);
+	alpha4=(double *) malloc(sizeof(double) * val);
 
 	/*Ciclo de cálculos*/
 	for(cont=0;cont<val+1;cont++)
@@ -50,11 +53,15 @@ int main()
 		/*Cálculo de las velocidades angulares*/
 		omega4[cont]=(omega2*r2*(tan(theta3[cont])*cos(theta2)-sin(theta2)))/(r4*(tan(theta3[cont])*cos(theta4[cont])-sin(theta4[cont])));
 		omega3[cont]=(r4*omega4[cont]*cos(theta4[cont])-r2*omega2*cos(theta2))/(r3*cos(theta3[cont]));
+
+		/*Cálculo de las aceleraciones angulares*/
+		alpha4[cont]=(-(alpha2*r2*sin(theta2)+r2*omega2*omega2*cos(theta2))+(r4*omega4[cont]*omega4[cont]*cos(theta4[cont]))-(r3*omega3[cont]*omega3[cont]*cos(theta3[cont])-tan(theta3[cont]))-tan(theta3[cont])*((-r4*omega4[cont]*omega4[cont]*sin(theta4[cont]))-(alpha2*r2*cos(theta2)-r2*omega2*omega2*sin(theta2))+(r3*omega3[cont]*omega3[cont]*sin(theta3[cont]))))/(r4*(tan(theta3[cont])*cos(theta4[cont])-sin(theta4[cont])));
 	}
 	printf("theta_3: %f\n", theta3[0]/degtorad);
 	printf("theta_4: %f\n", theta4[0]/degtorad);
 	printf("omega_4: %f\n", omega4[0]);
 	printf("omega_3: %f\n", omega3[0]);
+	printf("alpha_4: %f\n", alpha4[0]);
 	free(theta3);
 	free(theta4);
 	free(J);
@@ -62,5 +69,7 @@ int main()
 	free(L);
 	free(omega3);
 	free(omega4);
+	free(alpha3);
+	free(alpha4);
 	return 0;
 }
